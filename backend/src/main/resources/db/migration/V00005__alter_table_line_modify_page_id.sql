@@ -1,0 +1,1 @@
+ALTER TABLE line MODIFY page_id BIGINT NULL;

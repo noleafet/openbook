@@ -1,0 +1,1 @@
+ALTER TABLE page ADD number BIGINT NOT NULL;

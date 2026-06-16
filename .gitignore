@@ -1,0 +1,16 @@
+HELP.md
+
+# Local pnpm store directory (if configured to be in the project root)
+.pnpm-store/
+
+# Local pnpm state or debug data
+.pnpm-debug.log*
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+### VS Code ###
+.vscode/

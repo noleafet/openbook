@@ -1,0 +1,1 @@
+ALTER TABLE line MODIFY line_id BIGINT NULL;
