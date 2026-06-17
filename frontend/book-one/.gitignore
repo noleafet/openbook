@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Ignore SWC compiler cache directory (speeds up builds, generated locally)
 .swc/
+
+# Sonar reports
+/.scannerwork/
