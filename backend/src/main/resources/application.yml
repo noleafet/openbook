@@ -47,6 +47,10 @@ springdoc:
         syntaxHighlight:
             theme: light
 
+jwt:
+  secret: ${JWT_SECRET:8284D6251655468576D5A713474371805096859703373367639792F423F45284}
+  expiration: 86400000 # 24 hours in milliseconds
+
 # disable flyway execution
 #spring.flyway.enabled=false
 
