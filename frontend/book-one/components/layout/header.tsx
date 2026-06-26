@@ -4,7 +4,7 @@ import { PiGithubLogoDuotone, PiNotebookDuotone, PiNotebookFill } from 'react-ic
 import LoginForm from '@/components/forms/login-form';
 
 const HeaderLogoBox = styled.div`
-    color: var(--summer-tropical-primary);
+    color: var(--color-summer-tropical-primary);
     background-color: #111;
     padding: 4px 16px 6px 16px;
     line-height: 24px;
@@ -18,7 +18,7 @@ const HeaderLogoBox = styled.div`
 `;
 
 const CoverToggle = styled.span`
-    color: var(--summer-tropical-primary);
+    color: var(--color-summer-tropical-primary);
     cursor: pointer;
     
     span{
