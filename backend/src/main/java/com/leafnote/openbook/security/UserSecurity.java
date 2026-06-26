@@ -12,17 +12,23 @@ import java.util.stream.Collectors;
 
 public class UserSecurity implements UserDetails {
 
-    private String username; 
-    private String password;
-    private List<GrantedAuthority> authorities;
+    private final Long id; // Your custom user ID field
+    private final String username;
+    private final String password;
+    private final List<GrantedAuthority> authorities;
 
     public UserSecurity(User user) {
-        this.username = user.getEmail(); // Use email as username
+        this.id = user.getId();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = List.of(user.getRolesAsStrings())
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
