@@ -14,9 +14,7 @@ import com.leafnote.openbook.repository.LineRepository;
 import com.leafnote.openbook.service.LineService;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class LineServiceImpl implements LineService {
 

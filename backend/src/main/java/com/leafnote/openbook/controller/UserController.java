@@ -97,6 +97,7 @@ public class UserController {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
+    // this should be disable user instead - phase 3
     @Operation(summary = "DELETE A USER", description = "RETURNS NONE OR ERROR IF USER ID NOT FOUND")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(@PathVariable Long id) {
