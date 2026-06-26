@@ -15,7 +15,7 @@ export const IconButton = <P extends ComponentPropsWithoutRef<IconType>>({
   children, 
   ...buttonProps 
 }: IconButtonProps<P>) => {
-    return <Button type='button' variant='outline' size='icon' {...buttonProps} className='text-xl text-[var(--summer-tropical-primary)] hover:text-white cursor-pointer transition-all' >
+    return <Button type='button' variant='outline' size='icon' {...buttonProps} className='text-xl text-summer-tropical-primary hover:text-white cursor-pointer transition-all' >
         {children}
     </Button>
 }

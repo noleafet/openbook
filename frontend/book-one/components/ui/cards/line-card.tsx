@@ -16,7 +16,7 @@ const ToggleButton = styled.div`
   cursor: pointer;
   display: inline-block;
 
-  color: var(--summer-tropical-primary);
+  color: var(--color-summer-tropical-primary);
 
   &:hover{
     color: #fff;

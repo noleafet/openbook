@@ -24,7 +24,7 @@ const RegistryInfo = styled.div<RegistryInfoProps>`
     width: 100%;
     z-index: 879;
     background: #29292b;
-    color: var(--summer-tropical-primary);
+    color: var(--color-summer-tropical-primary);
 
     ${({ $showInfo }) => $showInfo
         ? css`
@@ -37,7 +37,7 @@ const RegistryInfo = styled.div<RegistryInfoProps>`
     `;
 
 const RegistrySlide = styled.div`
-    color: var(--summer-tropical-primary);
+    color: var(--color-summer-tropical-primary);
     background-color: #111;
     padding: 4px;
     z-index: 899;

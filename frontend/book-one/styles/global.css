@@ -46,6 +46,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  /* Custom style vars */
+  --color-summer-tropical-primary: oklch(75.2% 0.147 84);
 }
 
 * {
@@ -53,8 +55,6 @@
 }
 
 :root {
-  --summer-tropical-primary: oklch(75.2% 0.147 84);
-
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);

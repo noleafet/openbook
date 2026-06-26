@@ -22,7 +22,7 @@ const Cover = styled.div.withConfig({
     position: absolute;
     width: 100%;
     z-index: 999;
-    background: var(--summer-tropical-primary);
+    background: var(--color-summer-tropical-primary);
     color: white;
 
     overflow: hidden; 
