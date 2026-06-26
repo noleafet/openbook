@@ -1,5 +1,6 @@
 package com.leafnote.openbook.config;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +33,13 @@ public class SecurityConfig {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Bean
+    public FilterRegistrationBean<JwtAuthFilter> registration(JwtAuthFilter filter) {
+        FilterRegistrationBean<JwtAuthFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false); 
+        return registration;
+    }
+
     /*
      * Main security configuration
      * Defines endpoint access rules and JWT filter setup
@@ -41,19 +49,7 @@ public class SecurityConfig {
         http
                 // Disable CSRF (not needed for stateless JWT)
                 .csrf(csrf -> csrf.disable())
-
-                // Configure endpoint authorization
-                .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
-                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**", "/auth/generateToken").permitAll()
-
-                        // Role-based endpoints
-                        .requestMatchers("/api/*/delete/**").hasAuthority("ROLE_USER")
-                        .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
-
-                        // All other endpoints require authentication
-                        .anyRequest().authenticated())
-
+                
                 // Stateless session (required for JWT)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
@@ -61,7 +57,16 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
 
                 // Add JWT filter before Spring Security's default filter
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+                // Configure endpoint authorization
+                .authorizeHttpRequests(auth -> auth
+                        // Role-based endpoints\
+                        .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
+                        // Public endpoints
+                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll()
+                        // All other endpoints require authentication
+                        .anyRequest().authenticated());
 
         return http.build();
     }
