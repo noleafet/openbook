@@ -1,5 +1,8 @@
 package com.leafnote.openbook.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "userbook") 
+@Table(name = "userbook")
 public class UserBook extends AbstractAudit {
 
     @Id
@@ -23,6 +26,7 @@ public class UserBook extends AbstractAudit {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", unique = true, nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
     @ManyToOne(fetch = FetchType.LAZY)
