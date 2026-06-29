@@ -6,7 +6,7 @@ export default function InfoCard({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex">
-      <Card className="w-full max-w-md shadow-lg">
+      <Card className="w-full max-w-md shadow-lg rounded-sm">
         <CardContent>
           {children}
         </CardContent>

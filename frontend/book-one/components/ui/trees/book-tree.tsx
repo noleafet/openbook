@@ -22,8 +22,8 @@ export default function BookTree({ items, selectedItem, onSelectedItemsChange }:
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="flex justify-center items-center pt-2">
-        <div className='w-11/12 h-screen'>
+      <div className="flex justify-center items-center pt-2 pb-5">
+        <div className='w-11/12 bg-black/15!'>
           <RichTreeView
             items={items}
             onSelectedItemsChange={onSelectedItemsChange}
