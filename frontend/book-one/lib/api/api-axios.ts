@@ -10,13 +10,11 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   config => {
-    const cookieData = Cookies.get('auth_session');
-    
-    if (cookieData) {
-      const authData = JSON.parse(cookieData);
-      if (authData?.token) {
-        config.headers.Authorization = `Bearer ${authData.token}`;
-      }
+    const token = Cookies.get('authToken');
+
+    if (token) {
+      console.log(token);
+      config.headers.Authorization = `Bearer ${token}`;
     }
     // Use getUri to see the full URL with params before sending
     const fullUrl = apiClient.getUri(config);
