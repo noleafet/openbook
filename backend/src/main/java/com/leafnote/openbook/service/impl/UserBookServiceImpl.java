@@ -11,6 +11,7 @@ import com.leafnote.openbook.dto.UserBookResponseDTO;
 import com.leafnote.openbook.mapper.BookMapper;
 import com.leafnote.openbook.mapper.UserBookMapper;
 import com.leafnote.openbook.model.UserBook;
+import com.leafnote.openbook.repository.BookRepository;
 import com.leafnote.openbook.repository.UserBookRepository;
 import com.leafnote.openbook.service.UserBookService;
 
@@ -34,7 +35,8 @@ public class UserBookServiceImpl implements UserBookService {
     @Override
     public List<BookDTO> getBooksByUserId(Long userId) {
 
-        return userBookRepository.findBooksByUser_Id(null).stream()
+        return userBookRepository.findByUser_Id(userId).stream()
+                .map(UserBook::getBook)
                 .map(bookMapper::toDTO)
                 .collect(Collectors.toList());
 

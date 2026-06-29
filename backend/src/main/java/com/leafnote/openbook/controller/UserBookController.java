@@ -34,7 +34,7 @@ public class UserBookController {
 
     @Operation(summary = "GET BOOKS BY USER ID", description = "RETURNS LIST OF BOOKS")
     @GetMapping("/users/{userId}/books")
-    public ResponseEntity<ApiResponse<List<BookDTO>>> getAllUserBooks(@PathVariable Long userId) {
+    public ResponseEntity<ApiResponse<List<BookDTO>>> getBooksByUserId(@PathVariable Long userId) {
 
         List<BookDTO> books = userBookService.getBooksByUserId(userId);
 

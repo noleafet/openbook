@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leafnote.openbook.annotation.AuthenticatedAddBook;
 import com.leafnote.openbook.dto.BookDTO;
 import com.leafnote.openbook.response.ApiResponse;
 import com.leafnote.openbook.response.ApiResponseCode;
@@ -54,6 +55,7 @@ public class BookController {
 
     @Operation(summary = "ADD NEW BOOK", description = "RETURNS NEW BOOK CREATED")
     @PostMapping
+    @AuthenticatedAddBook
     public ResponseEntity<ApiResponse<BookDTO>> addBook(@Valid @RequestBody BookDTO bookDTO) {
 
         bookDTO = bookService.addBook(bookDTO);
