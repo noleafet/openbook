@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { BiSave } from 'react-icons/bi';
 import { CgBookmark } from "react-icons/cg";
-import { FaGears } from "react-icons/fa6";
+import { PiMinusDuotone } from "react-icons/pi";
 import { TiFlowChildren } from "react-icons/ti";
 
 import {
@@ -67,13 +67,13 @@ export default function DataForm({ text, onButtonClick, onFormSubmit }: DataForm
                 <IconButton title='Save' type='submit'>
                   <BiSave />
                 </IconButton>
+                <IconButton title='Remove book' onClick={() => onButtonClick('removeBook')}>
+                  <PiMinusDuotone />
+                </IconButton>
                 <IconButton title='Bookmark' onClick={() => onButtonClick('bookmark')}>
                   <CgBookmark />
                 </IconButton>
-                <IconButton title='Configure' onClick={() => onButtonClick('configure')}>
-                  <FaGears />
-                </IconButton>
-                <IconButton title='Add child' onClick={() => onButtonClick('add-child')}>
+                <IconButton title='Add child' onClick={() => onButtonClick('addChild')}>
                   <TiFlowChildren />
                 </IconButton>
               </FormItem>
