@@ -5,7 +5,7 @@ import { UserBook } from '@/types/userbook.types';
 export const UserBookService = {
 
   getBooksByUserId: async (userId: number): Promise<Book[]> =>
-    apiClient.get(`/userbooks/user/${userId}/books}`).then(res => res.data),
+    apiClient.get(`/userbooks/users/${userId}/books`).then(res => res.data),
 
   createUserBook: async (data: { userId:number, bookId: number }): Promise<UserBook> =>
     apiClient.post('/userbooks', data).then(res => res.data)

@@ -8,5 +8,8 @@ export const BookService = {
     apiClient.get(`/books/${id}`).then(res => res.data),
 
   createBook: async (data: { title: string; author: string }): Promise<Book> =>
-    apiClient.post('/books', data).then(res => res.data)
+    apiClient.post('/books', data).then(res => res.data),
+
+  removeBookById: async (id: number): Promise<Book> =>
+    apiClient.delete(`/books/${id}`).then(res => res.data),
 };

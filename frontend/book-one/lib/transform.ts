@@ -17,15 +17,15 @@ export function transformBookToTreeItem(book: Book): BookTreeItem {
                         line => lineItem.push(transformLineToTreeItem(line))
                     );
                     pageItem.push({
-                        id: "p" + page.id,
-                        label: (page.note === undefined || page.note === "") ? String(page.number) : cleanLabel(page.note),
+                        id: 'p-' + page.id,
+                        label: (page.note === undefined || page.note === '') ? String(page.number) : cleanLabel(page.note),
                         children: lineItem,
                     });
                 }
             );
 
             chapterItem.push({
-                id: "c" + chapter.id,
+                id: 'c-' + chapter.id,
                 label: cleanLabel(chapter.title),
                 children: pageItem,
             });
@@ -33,7 +33,7 @@ export function transformBookToTreeItem(book: Book): BookTreeItem {
     );
 
     const item: BookTreeItem = {
-        id: String(book.id),
+        id: 'b-'+book.id,
         label: cleanLabel(book.title),
         children: chapterItem,
     };
@@ -44,7 +44,7 @@ export function transformBookToTreeItem(book: Book): BookTreeItem {
 function transformLineToTreeItem(line: Line): BookTreeItem {
     if (line.lines.length == 0) {
         return {
-            id: "l" + line.id,
+            id: 'l-' + line.id,
             label: cleanLabel(line.content),
             children: [],
         };
@@ -55,7 +55,7 @@ function transformLineToTreeItem(line: Line): BookTreeItem {
 
         );
         return {
-            id: "l" + line.id,
+            id: 'l-' + line.id,
             label: cleanLabel(line.content),
             children: lineChildren
         }
@@ -64,7 +64,7 @@ function transformLineToTreeItem(line: Line): BookTreeItem {
 
 function cleanLabel(text: string) {
     //strip other contents e.g. url
-    text = (text.indexOf("|") != -1) ? text[0] : text;
+    text = (text.indexOf('|') != -1) ? text[0] : text;
     return text;
 }
 
