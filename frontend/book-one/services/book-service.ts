@@ -1,15 +1,34 @@
-import apiClient from '@/lib/api/api-axios';
-import { Book } from '@/types/book.types';
+import { Book, Chapter, Page, Line } from '@/types/book.types';
+import { BaseHttpService } from '@/services/service';
 
-export const BookService = {
-  getBooks: async (): Promise<Book[]> => apiClient.get('/books').then(res => res.data),
+export class BookService extends BaseHttpService<Book> {
 
-  getBookById: async (id: number): Promise<Book> =>
-    apiClient.get(`/books/${id}`).then(res => res.data),
+  constructor() {
+    super('books');
+  }
 
-  createBook: async (data: { title: string; author: string }): Promise<Book> =>
-    apiClient.post('/books', data).then(res => res.data),
+};
 
-  removeBookById: async (id: number): Promise<Book> =>
-    apiClient.delete(`/books/${id}`).then(res => res.data),
+export class ChapterService extends BaseHttpService<Chapter> {
+
+  constructor() {
+    super('chapters');
+  }
+
+};
+
+export class PageService extends BaseHttpService<Page> {
+
+  constructor() {
+    super('pages');
+  }
+
+};
+
+export class LineService extends BaseHttpService<Line> {
+
+  constructor() {
+    super('lines');
+  }
+
 };

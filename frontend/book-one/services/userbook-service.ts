@@ -1,12 +1,16 @@
 import apiClient from '@/lib/api/api-axios';
 import { Book } from '@/types/book.types';
 import { UserBook } from '@/types/userbook.types';
+import { BaseHttpService } from '@/services/service';
 
-export const UserBookService = {
+export class UserBookService extends BaseHttpService<UserBook> {
 
-  getBooksByUserId: async (userId: number): Promise<Book[]> =>
-    apiClient.get(`/userbooks/users/${userId}/books`).then(res => res.data),
+  constructor() {
+    super('userbooks');
+  }
 
-  createUserBook: async (data: { userId:number, bookId: number }): Promise<UserBook> =>
-    apiClient.post('/userbooks', data).then(res => res.data)
+  async getBooksByUserId(userId: number): Promise<Book[]>{
+    return apiClient.get(`/${this.resource}/users/${userId}/books`).then(res => res.data);
+  }
+
 };
