@@ -1,5 +1,8 @@
 package com.leafnote.openbook.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,10 +25,12 @@ public class Bookmark extends AbstractAudit {
     
     @OneToOne
     @JoinColumn(name = "page_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Page page;
 
     @OneToOne
     @JoinColumn(name = "line_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Line line;
 
 }
