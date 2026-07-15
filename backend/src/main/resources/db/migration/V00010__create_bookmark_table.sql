@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS bookmark (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    page_id BIGINT NOT NULL,
+    FOREIGN KEY (page_id) REFERENCES page(id) ON DELETE CASCADE,
+    line_id BIGINT NOT NULL UNIQUE,
+    FOREIGN KEY (line_id) REFERENCES line(id) ON DELETE CASCADE,
+    created_at DATETIME,
+    modified_at DATETIME
+);
