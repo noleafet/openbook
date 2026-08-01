@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity // Marks this class as a persistent entity
-@Table(name = "user") // Specifies the table name
+@Table(name = "app_user") // Specifies the table name
 public class User extends AbstractAudit {
 
     @Id
