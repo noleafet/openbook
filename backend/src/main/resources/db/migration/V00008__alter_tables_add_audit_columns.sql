@@ -14,7 +14,7 @@ ALTER TABLE line
 ADD created_by VARCHAR(255),
 ADD modified_by VARCHAR(255);
 
-ALTER TABLE user 
+ALTER TABLE app_user 
 ADD created_by VARCHAR(255),
 ADD modified_by VARCHAR(255);
 
