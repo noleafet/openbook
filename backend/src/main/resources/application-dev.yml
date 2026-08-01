@@ -23,7 +23,7 @@ spring:
     application:
         name: openbook
     datasource:
-        url: jdbc:mysql://${vars.db.host}:3306/${vars.db.name}?useSSL=false&allowPublicKeyRetrieval=true
+        url: jdbc:postgresql://${vars.db.host}:5432/${vars.db.name}?sslmode=disable
         username: ${vars.db.user}
         password: ${vars.db.pass}
     jackson:
@@ -32,10 +32,10 @@ spring:
         properties:
             hibernate:
                 connection:
-                    url: jdbc:mysql://${vars.db.host}:3306/${vars.db.name}?useSSL=false&allowPublicKeyRetrieval=true
+                    url: jdbc:postgresql://${vars.db.host}:5432/${vars.db.name}?sslmode=disable
                     username: ${vars.db.user}
                     password: ${vars.db.pass}
-                dialect: org.hibernate.dialect.MySQLDialect
+                dialect: org.hibernate.dialect.PostgreSQLDialect
                 ddl-auto: validate
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
