@@ -3,6 +3,7 @@ package com.leafnote.openbook.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.leafnote.openbook.dto.PageRequestDTO;
@@ -30,7 +31,7 @@ public class PageServiceImpl implements PageService {
     @Override
     public List<PageResponseDTO> getAllPages() {
 
-        return pageRepository.findAll().stream()
+        return pageRepository.findAll(Sort.by("note")).stream()
                 .map(pageMapper::toDTO)
                 .collect(Collectors.toList());
 

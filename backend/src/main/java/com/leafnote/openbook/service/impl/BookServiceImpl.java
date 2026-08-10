@@ -1,8 +1,10 @@
 package com.leafnote.openbook.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.leafnote.openbook.dto.BookDTO;
@@ -29,7 +31,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDTO> getAllBooks() {
 
-        return bookRepository.findAll().stream()
+        return bookRepository.findAll(Sort.by("title")).stream()
                 .map(bookMapper::toDTO)
                 .collect(Collectors.toList());
 
@@ -53,8 +55,8 @@ public class BookServiceImpl implements BookService {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Book.class, "id", id));
 
-        existingBook.setTitle(bookDTO.title());
-        existingBook.setAuthor(bookDTO.author());
+        Optional.ofNullable(bookDTO.title()).ifPresent(existingBook::setTitle);
+        Optional.ofNullable(bookDTO.author()).ifPresent(existingBook::setAuthor);
 
         bookRepository.save(existingBook);
 
