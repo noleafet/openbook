@@ -3,6 +3,7 @@ package com.leafnote.openbook.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.leafnote.openbook.dto.ChapterRequestDTO;
@@ -30,7 +31,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public List<ChapterResponseDTO> getAllChapters() {
 
-        return chapterRepository.findAll().stream()
+        return chapterRepository.findAll(Sort.by("title")).stream()
                 .map(chapterMapper::toDTO)
                 .collect(Collectors.toList());
 

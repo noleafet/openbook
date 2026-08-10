@@ -3,6 +3,7 @@ package com.leafnote.openbook.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.leafnote.openbook.dto.LineRequestDTO;
@@ -30,7 +31,7 @@ public class LineServiceImpl implements LineService {
     @Override
     public List<LineResponseDTO> getAllLines() {
 
-        return lineRepository.findAll().stream()
+        return lineRepository.findAll(Sort.by("content")).stream()
                 .map(lineMapper::toDTO)
                 .collect(Collectors.toList());
 
