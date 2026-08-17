@@ -7,12 +7,14 @@ export interface Book {
 
 export interface Chapter {
   id: number;
+  bookId: number;
   title: string;
   pages: Page[];
 }
 
 export interface Page {
     id: number;
+    chapterId: number;
     number: number;
     note: string;
     lines: Line[]
@@ -20,6 +22,8 @@ export interface Page {
 
 export interface Line {
     id: number;
+    pageId: number;
+    lineId: number;
     content: string;
     lines: Line[];
 }
