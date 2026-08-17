@@ -7,4 +7,4 @@ public record BookmarkRequestDTO(
         Long id,
         Long pageId,
         Long lineId
-) {}
+) implements IdCheckable {}
