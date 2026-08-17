@@ -6,7 +6,7 @@ import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 
 import Content from '@/components/layout/content';
-import CoverNavigation from '@/components/layout/cover';
+import Cover from '@/components/layout/cover';
 import Header from '@/components/layout/header';
 import Registry from '@/components/layout/registry';
 import Sidebar from '@/components/layout/sidebar';
@@ -15,36 +15,50 @@ import BookTree from '@/components/ui/trees/book-tree';
 //import BinderBar from '@/components/layout/binder';
 import Hub from '@/components/layout/hub';
 
-import { BookService } from '@/services/book-service';
-import { UserBookService } from '@/services/userbook-service';
+import BookForm from '@/components/forms/book-form';
+import DataForm from '@/components/forms/data-form';
+import ChildForm from '@/components/forms/child-form';
+
+import InfoCard from '@/components/ui/cards/info-card';
 
 import { Book, Line } from '@/types/book.types';
+import { Bookmark } from '@/types/bookmark.types';
 import { BookTreeItem } from '@/types/tree.types';
 import { User } from '@/types/user.types';
+
+import { UserBookService } from '@/services/userbook-service';
+import { BookmarkService } from '@/services/bookmark-service';
 
 import { useCookieListener } from '@/hooks/useCookieListener';
 
 import { transformBookToLineArray, transformBookToTreeItem } from '@/lib/transform';
-import { searchBookTreeItemLabelById } from '@/lib/utils';
 
-import BookForm from '@/components/forms/book-form';
-import DataForm from '@/components/forms/data-form';
+import { BookUtil, TreeUtil } from '@/lib/utils';
 
 
 export default function BookOne() {
 
   const [user, setUser] = useState<User | null>(null);
   const [books, setBooks] = useState<Book[]>([]);
-  const [selectedItemId, setSelectedItemId] = useState('');
-  const [selectedItemLabel, setSelectedItemLabel] = useState('');
-  const [covered, setCovered] = useState(false);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [itemId, setItemId] = useState('');
+  const [dataKey, setDataKey] = useState('');
+  const [dataId, setDataId] = useState(0);
+  const [showCover, setShowCover] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showChildForm, setShowChildForm] = useState(false);
 
-  const resetTree = useCallback(() => {
+  const resetMetaData = useCallback(() => {
     console.log('reset');
     if (user) {
-      UserBookService.getBooksByUserId(user.id)
+      const service = new UserBookService();
+      service.getBooksByUserId(user.id)
         .then(setBooks)
+        .catch(console.error);
+
+      const bookmarkService = new BookmarkService();
+      bookmarkService.getAll()
+        .then(setBookmarks)
         .catch(console.error);
     }
   }, [user, setBooks]);
@@ -52,118 +66,110 @@ export default function BookOne() {
   useCookieListener('authUser', (cookieUser) => {
     const storedUser: User = cookieUser ? JSON.parse(cookieUser) : null;
     setUser(storedUser);
-    resetTree();
+    resetMetaData();
   });
 
   useEffect(() => {
-    resetTree();
-  }, [resetTree]);
+    resetMetaData();
+  }, [resetMetaData]);
 
   const bookTreeItems = useMemo(() => {
+
     if (!books) return [];
+
     const bookTreeItems: BookTreeItem[] = [];
-    books.forEach(
-      book => {
-        bookTreeItems.push(transformBookToTreeItem(book));
-      }
-    );
+    books.forEach(book => bookTreeItems.push(transformBookToTreeItem(book)));
     //console.log(JSON.stringify(bookTreeItems, null, 2));
+    bookTreeItems.map(bookTreeItem => {
+      bookmarks.map(bookmark => {
+        console.log('bookmark');
+        console.log(bookmark);
+        const treeItemId = bookmark.page ? 'p-' + bookmark.page.id : 'l-' + bookmark.line.id;
+        TreeUtil.bookmarkBookTreeItemById(treeItemId, bookTreeItem);
+      });
+    });
+    console.log(bookTreeItems);
     return bookTreeItems;
-  }, [books]);
+  }, [books, bookmarks]);
 
   const lines = useMemo(() => {
+
     if (!books) return [];
+
     const lines: Line[] = [];
-    books.forEach(
-      book => {
-        lines.push(...transformBookToLineArray(book));
-      }
-    );
+    books.forEach(book => lines.push(...transformBookToLineArray(book)));
     console.log(JSON.stringify(lines, null, 2));
     return lines;
   }, [books]);
 
-  const toggleCover = () => {
-    setCovered(!covered);
+  const toggleShowCover = () => {
+    setShowCover(!showCover);
   };
 
-  const toggleHeaderInfo = () => {
+  const toggleShowInfo = () => {
     setShowInfo(!showInfo);
   };
 
-  const handleSelectionChange = (
-    event: React.SyntheticEvent | null,
-    itemId: string | null) => {
+  const toggleShowChildForm = () => {
 
-    if (!itemId) return null;
-
-    if (itemId == selectedItemId) {
-      setShowInfo(!showInfo)
-    }
-    else {
-      setShowInfo(true);
-    }
-
-    setSelectedItemId(itemId);
-
-    let label = '';
-    for (const item of bookTreeItems) {
-      label = searchBookTreeItemLabelById(itemId, item);
-      if (label.length > 0) break;
-    }
-    setSelectedItemLabel(label);
-    console.log('Selected Item ID:', itemId);
-
+    setShowChildForm(!showChildForm);
   };
 
-  const handleFormSubmit = (values: unknown) => {
-    console.log('Form submitted with:', values);
+  const handleSelectedItemChange = (event: React.SyntheticEvent | null, id: string | null) => {
+
+    if (!id) return null;
+
+    setShowChildForm(false);
+
+    setShowInfo(id === itemId ? !showInfo : true);
+
+    const { dataKey, dataId } = TreeUtil.parseBookTreeItemId(id);
+
+    setItemId(id);
+    setDataKey(dataKey);
+    setDataId(dataId);
   };
 
-  const handleButtonClick = (action: string) => {
-    console.log('Action taken:', action);
+  const handleActionPerformed = (action: string) => {
 
-    const [itemTypeId, itemIdStr] = selectedItemId.split('-');
-    const itemId = parseInt(itemIdStr);
+    console.log('err');
+
+    const resetKeys = ['bookAdded', 'childAdded', 'dataUpdated', 'itemRemoved', 'bookmarkAdded', 'bookmarkRemoved'];
 
     const actionMap: Record<string, () => void> = {
-      removeBook: () => deleteItem(itemTypeId, itemId),
+      ...Object.fromEntries(resetKeys.map(key => [key, resetMetaData])),
+      showChildForm: toggleShowChildForm,
       default: () => console.log('Action not registered')
     };
 
-    // Execute the matching action, or fall back to the default
     (actionMap[action] || actionMap.default)();
-
-  };
-
-  const deleteItem = (itemTypeId: string, itemId: number): void => {
-    console.log('ItemTypeId taken:', itemTypeId);
-
-    const serviceMap: Record<string, () => void> = {
-      'b': () => BookService.removeBookById(itemId).then(() => {
-        resetTree();
-      }).catch(console.error),
-    };
-
-    (serviceMap[itemTypeId] || serviceMap.default)();
   }
-
 
   return (
     <Theme appearance='dark'>
 
       {lines &&
-        <>
-          <Header covered={covered} onToggleCover={toggleCover} />
-          <CoverNavigation covered={covered} />
-          <div className='grid grid-cols-6'>
+        <div className='flex flex-col h-screen overflow-hidden'>
+          <Header showCover={showCover} onToggleShowCover={toggleShowCover} />
+          <Cover showCover={showCover} />
+          <div className='flex-1 grid grid-cols-6 h-full'>
 
             <Content className='col-span-5 border-r border-gray-700'>
-              <Registry showInfo={showInfo} onToggleHeaderInfo={toggleHeaderInfo}>
+              <Registry showInfo={showInfo} onToggleShowInfo={toggleShowInfo}>
                 {user &&
-                  <DataForm user={user} text={selectedItemLabel} onButtonClick={handleButtonClick} onFormSubmit={handleFormSubmit} />}
+                  <>
+                    <InfoCard>
+                      <DataForm dataId={dataId} dataKey={dataKey} bookmarkId={BookUtil.findBookmarkId(dataKey, dataId, bookmarks)} handler={handleActionPerformed} />
+                    </InfoCard>
+                    {showChildForm &&
+                      <InfoCard>
+                        <ChildForm dataId={dataId} dataKey={dataKey} handler={handleActionPerformed} />
+                      </InfoCard>
+                    }
+                  </>
+                }
               </Registry>
-              <Hub data={lines} />
+              <Hub books={books} bookmarks={bookmarks} />
             </Content>
 
             <Sidebar className='col-span-1'>
@@ -171,14 +177,14 @@ export default function BookOne() {
               {user &&
                 <>
                   <Search />
-                  <BookTree items={bookTreeItems} selectedItem={selectedItemId} onSelectedItemsChange={handleSelectionChange} />
-                  <BookForm user={user} onSubmission={() => resetTree()} />
+                  <BookTree items={bookTreeItems} selectedItem={itemId} onSelectedItemChange={handleSelectedItemChange} />
+                  <BookForm user={user} handler={handleActionPerformed} />
                 </>
               }
             </Sidebar>
 
           </div>
-        </>
+        </div>
       }
     </Theme>
   )
