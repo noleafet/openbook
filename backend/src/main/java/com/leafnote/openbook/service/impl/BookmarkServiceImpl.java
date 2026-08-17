@@ -1,6 +1,7 @@
 package com.leafnote.openbook.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,7 +41,17 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public BookmarkResponseDTO addBookmark(BookmarkRequestDTO bookmarkDTO) {
-        Bookmark savedBookmark = bookmarkRepository.save(bookmarkMapper.toEntity(bookmarkDTO));
+        Bookmark bookmark = bookmarkMapper.toEntity(bookmarkDTO);
+        
+        if (bookmarkDTO.pageId() == null) {
+            bookmark.setPage(null);
+        }
+
+        if (bookmarkDTO.lineId() == null) {
+            bookmark.setLine(null);
+        }
+        
+        Bookmark savedBookmark = bookmarkRepository.save(bookmark);
         return bookmarkMapper.toDTO(savedBookmark);
     }
 
@@ -54,15 +65,19 @@ public class BookmarkServiceImpl implements BookmarkService {
     public List<BookmarkResponseDTO> getAllBookmarksByBooks(List<BookDTO> bookDTOs) {
 
         bookDTOs.forEach(book -> book.chapters().forEach(chapter -> chapter.pages()));
-        Stream<PageResponseDTO> pageResponseDTOs = bookDTOs.stream()
+        List<Bookmark> pageBookmarks = bookDTOs.stream()
             .flatMap(book -> book.chapters().stream())
-            .flatMap(chapter -> chapter.pages().stream());
+            .flatMap(chapter -> chapter.pages().stream())
+            .map(page -> bookmarkRepository.findByPage_Id(page.id())).toList();
 
-        List<Bookmark> pageBookmarks = pageResponseDTOs.map(page -> bookmarkRepository.findByPage_Id(page.id())).toList();
-        List<Bookmark> lineBookmarks = pageResponseDTOs.flatMap(page -> page.lines().stream())
+        List<Bookmark> lineBookmarks =  bookDTOs.stream()
+            .flatMap(book -> book.chapters().stream())
+            .flatMap(chapter -> chapter.pages().stream())
+            .flatMap(page -> page.lines().stream())
             .map(line -> bookmarkRepository.findByLine_Id(line.id())).toList();
 
         return Stream.concat(pageBookmarks.stream(), lineBookmarks.stream())
+            .filter(Objects::nonNull)
             .map(bookmarkMapper::toDTO)
             .toList();
     }
