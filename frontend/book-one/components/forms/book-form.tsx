@@ -25,6 +25,7 @@ import { BookService } from "@/services/book-service";
 
 import { useIsMounted } from '@/hooks/useIsMounted';
 import { User } from "@/types/user.types";
+import { Book } from '@/types/book.types';
 
 
 // 1. Define schema for validation
@@ -34,10 +35,10 @@ const formSchema = z.object({
 
 interface BookFormProps {
   user: User;
-  onSubmission: () => void;
+  handler?: (action: string) => void;
 }
 
-export default function BookForm({ user, onSubmission }: BookFormProps) {
+export default function BookForm({ user, handler }: BookFormProps) {
 
   const [showForm, setShowForm] = useState(false);
 
@@ -47,7 +48,8 @@ export default function BookForm({ user, onSubmission }: BookFormProps) {
   });
 
   const onFormSubmit = (values: z.infer<typeof formSchema>) => {
-    BookService.createBook({ title: values.title, author: user.username }).then(() => onSubmission());
+    const service = new BookService();
+    service.create({ title: values.title, author: user.username } as Book).then(() => handler?.('bookAdded'));
     console.log('Form submitted with:', values);
   };
 
@@ -86,7 +88,7 @@ export default function BookForm({ user, onSubmission }: BookFormProps) {
                       <>
                         <FormItem className='flex w-full items-center justify-betweeen'>
                           <FormControl>
-                            <Input placeholder='title' {...field} />
+                            <Input {...field} />
                           </FormControl>
                           <IconButton title='Save' type='submit'>
                             <PiFloppyDiskDuotone />
