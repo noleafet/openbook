@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect } from "react"
+import { useEffect } from "react";
 
 import { useForm } from 'react-hook-form';
 
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 import { BiSave } from 'react-icons/bi';
-import { CgBookmark } from "react-icons/cg";
+import { MdOutlineBookmark, MdOutlineBookmarkBorder } from "react-icons/md";
 import { PiMinusDuotone } from "react-icons/pi";
 import { TiFlowChildren } from "react-icons/ti";
 
@@ -19,38 +19,102 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { IconButton } from '@/components/ui/icon-button';
-import { User } from "@/types/user.types";
+import { Input } from '@/components/ui/input';
+
+import { Book, Chapter, Line, Page } from "@/types/book.types";
+import { Bookmark } from "@/types/bookmark.types";
+
+import { BookmarkService } from "@/services/bookmark-service";
+import { BookTypeMapping, ServiceMap } from "@/services/service-map";
 
 
-
-// 1. Define schema for validation
 const formSchema = z.object({
   label: z.string().min(2, { message: 'Label must be at least 2 characters.' }),
 });
 
 interface DataFormProps {
-  user: User;
-  text: string;
-  onButtonClick: (action: string) => void;
-  onFormSubmit: (values: z.infer<typeof formSchema>) => void;
+  dataKey: string;
+  dataId: number;
+  bookmarkId: number;
+  handler?: (action: string) => void;
 }
 
-export default function DataForm({ text, onButtonClick, onFormSubmit }: DataFormProps) {
-  // 2. Define form hook
-  const form = useForm<z.infer<typeof formSchema>>({
+const getlabelMapping = (dataKey: string, response: unknown): string => {
+  if (!response) return '';
+
+  const map: Record<string, string> = {
+    'b': (response as Book).title,
+    'c': (response as Chapter).title,
+    'p': (response as Page).note || String((response as Page).number),
+    'l': (response as Line).content
+  };
+
+  return map[dataKey];
+}
+
+export default function DataForm({ dataKey, dataId, bookmarkId, handler }: DataFormProps) {
+
+  type BookData = z.infer<typeof formSchema>;
+
+  const isBookmarked = bookmarkId != -1;
+
+  const form = useForm<BookData>({
     resolver: zodResolver(formSchema),
-    defaultValues: { label: text },
+    defaultValues: { label: '' },
   });
 
-
-  // Set the value whenever the 'userData' prop updates
   useEffect(() => {
-    if (text) {
-      form.setValue("label", text)
+    if (dataId) {
+
+      const service = ServiceMap.getServiceByKey(dataKey);
+      service.getById(dataId).then(response => form.setValue("label", getlabelMapping(dataKey, response)));
     }
-  }, [text, form])
+  }, [dataId, dataKey, form]);
+
+  const onFormSubmit = (values: BookData) => {
+    console.log('Form submitted with:', values);
+
+    const actionMap: Record<string, BookTypeMapping> = {
+      'b': { title: values.label } as Book,
+      'c': { title: values.label } as Chapter,
+      'p': { note: values.label } as Page,
+      'l': { content: values.label } as Line
+    };
+
+    ServiceMap.getServiceByKey(dataKey).update(dataId, actionMap[dataKey]).then(() => handler?.('dataUpdated'));
+  };
+
+  const onButtonClick = (action: string) => {
+    console.log('Action taken:', action);
+
+    if (dataId) {
+
+      const service = ServiceMap.getServiceByKey(dataKey);
+
+      const actionMap: Record<string, () => void> = {
+        bookmark: () => {
+          const service = new BookmarkService();
+
+          if (isBookmarked) service.delete(bookmarkId).then(() => handler?.('bookmarkRemoved'));
+          else {
+            const page_id = dataKey === 'p' ? dataId : null;
+            const line_id = dataKey === 'l' ? dataId : null;
+            service.createByPageIdOrLineId({ 'pageId': page_id , 'lineId': line_id }).then(() => handler?.('bookmarkAdded'));
+          }
+
+        },
+        remove: () => service.delete(dataId).then(() => handler?.('itemRemoved')),
+        addChild: () => handler?.('showChildForm'),
+        default: () => console.log('Action not registered')
+      };
+
+      // Execute the matching action, or fall back to the default
+      (actionMap[action] || actionMap.default)();
+    }
+
+  };
+
 
   return (
     <Form {...form}>
@@ -67,12 +131,14 @@ export default function DataForm({ text, onButtonClick, onFormSubmit }: DataForm
                 <IconButton title='Save' type='submit'>
                   <BiSave />
                 </IconButton>
-                <IconButton title='Remove book' onClick={() => onButtonClick('removeBook')}>
+                <IconButton title='Remove book' onClick={() => onButtonClick('remove')}>
                   <PiMinusDuotone />
                 </IconButton>
-                <IconButton title='Bookmark' onClick={() => onButtonClick('bookmark')}>
-                  <CgBookmark />
-                </IconButton>
+                {dataKey && ['p', 'l'].includes(dataKey) &&
+                  <IconButton title='Bookmark' onClick={() => onButtonClick('bookmark')}>
+                    {isBookmarked ? <MdOutlineBookmark /> : <MdOutlineBookmarkBorder />}
+                  </IconButton>
+                }
                 <IconButton title='Add child' onClick={() => onButtonClick('addChild')}>
                   <TiFlowChildren />
                 </IconButton>
