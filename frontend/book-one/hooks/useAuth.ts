@@ -19,8 +19,8 @@ export const useAuth = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const login = (authUser: AuthUser) => {
-        Cookies.set('authToken', authUser.token, { expires: 7, secure: true });
-        Cookies.set('authUser', JSON.stringify(authUser.user), { expires: 7, secure: true })
+        Cookies.set('authToken', authUser.token, { expires: 1, secure: true });
+        Cookies.set('authUser', JSON.stringify(authUser.user), { expires: 1, secure: true })
         setAuthUser(authUser);
         setIsLoading(false);
     };
