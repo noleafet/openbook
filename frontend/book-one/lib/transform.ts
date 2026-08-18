@@ -64,8 +64,7 @@ function transformLineToTreeItem(line: Line): BookTreeItem {
 
 function cleanLabel(text: string) {
     //strip other contents e.g. url
-    text = (text.indexOf('|') != -1) ? text[0] : text;
-    return text;
+    return text.split('|')[0];
 }
 
 

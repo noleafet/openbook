@@ -65,7 +65,7 @@ public class LineController {
 
     @Operation(summary = "UPDATE A LINE", description = "RETURNS THE UPDATED LINE")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<LineResponseDTO>> updateLine(@PathVariable Long id, @Valid @RequestBody LineRequestDTO lineRequestDTO) {
+    public ResponseEntity<ApiResponse<LineResponseDTO>> updateLine(@PathVariable Long id, @RequestBody LineRequestDTO lineRequestDTO) {
 
        LineResponseDTO lineResponseDTO = lineService.updateLine(id, lineRequestDTO);
 

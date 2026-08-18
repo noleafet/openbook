@@ -54,7 +54,6 @@ public class BookmarkController {
                 UserSecurity userSecurity = (UserSecurity) principal;
                 List<BookDTO> books = userBookService.getBooksByUserId(userSecurity.getId());
 
-                books.forEach(book -> book.chapters().forEach(chapter -> chapter.pages()));
                 bookmarks = bookmarkService.getAllBookmarksByBooks(books);
 
             }

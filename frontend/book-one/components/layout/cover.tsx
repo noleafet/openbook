@@ -3,7 +3,7 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 interface CoverProps{
-    covered: boolean;
+    showCover: boolean;
 }
 
 const slideDown = keyframes`
@@ -16,8 +16,8 @@ const slideUp = keyframes`
     to { transform: translateY(-100%); opacity: 0; }
     `;
 
-const Cover = styled.div.withConfig({
-        shouldForwardProp: (prop) => prop !== 'covered',
+const CoverWrap = styled.div.withConfig({
+        shouldForwardProp: (prop) => prop !== 'showCover',
     })<CoverProps>`
     position: absolute;
     width: 100%;
@@ -27,7 +27,7 @@ const Cover = styled.div.withConfig({
 
     overflow: hidden; 
 
-    ${props => (props.covered
+    ${props => (props.showCover
         ? css`
             animation: ${slideDown} 0.5s ease-out forwards;
             visibility: visible;
@@ -55,10 +55,10 @@ const NavItem = styled.div`
     `;
 
 
-export default function CoverNavigation({ covered }: CoverProps) {
+export default function Cover({ showCover }: CoverProps) {
 
     return (
-        <Cover covered={covered}>
+        <CoverWrap className='top-10' showCover={showCover}>
             <div className="grid grid-cols-6">
                 <div className="col-span-5 h-screen border-r border-r-white bg-white/10 flex justify-end">
 
@@ -80,7 +80,7 @@ export default function CoverNavigation({ covered }: CoverProps) {
 
                 </div>
             </div>
-        </Cover>
+        </CoverWrap>
 
     );
 
