@@ -52,8 +52,8 @@ export default function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setErrorMsg(null);
-
-    UserService.authenticate(values).then(res => login(res)).catch(err => {
+    const service = new UserService();
+    service.authenticate(values).then(res => login(res)).catch(err => {
       const message = ErrorUtil.getErrorMessage(err);
       setErrorMsg(
         message || 'Invalid username or password.'
