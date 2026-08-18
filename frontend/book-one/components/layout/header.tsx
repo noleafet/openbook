@@ -31,12 +31,12 @@ const CoverToggle = styled.span`
     `;
 
 
-interface HeaderInfo{
-    covered: boolean;
-    onToggleCover: () => void;
+interface HeaderInfo {
+    showCover: boolean;
+    onToggleShowCover: () => void;
 }
 
-export default function Header({covered, onToggleCover}:HeaderInfo) {
+export default function Header({ showCover, onToggleShowCover }: HeaderInfo) {
 
 
     return (
@@ -46,8 +46,8 @@ export default function Header({covered, onToggleCover}:HeaderInfo) {
                 <span className='flex gap-x-4 text-base items-center'>
                     <span><LoginForm /></span>
                     <span title='Github'><PiGithubLogoDuotone /></span>
-                    <CoverToggle title='Cover' onClick={onToggleCover}>
-                        {covered?<PiNotebookFill />:<PiNotebookDuotone />}
+                    <CoverToggle title='Cover' onClick={onToggleShowCover}>
+                        {showCover ? <PiNotebookFill /> : <PiNotebookDuotone />}
                     </CoverToggle>
                 </span>
             </HeaderLogoBox>

@@ -7,8 +7,8 @@ interface SidebarProps{
 
 export default function Sidebar({ className, children }: SidebarProps) {
     return (
-        <div className={`${className} col-span-1 flex h-screen`}>
-            <div className='flex-1 overflow-hidden pt-4'>
+        <div className={`${className} col-span-1 overflow-y-auto`}>
+            <div className='flex-1 pt-4'>
                 {children}
             </div>
         </div>
