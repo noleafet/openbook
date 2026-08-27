@@ -337,7 +337,7 @@ Run the test suite and verification lifecycle with:
 Run static analysis configured for the repository with:
 
 ```bash
-./mvnw sonar:sonar
+./mvnw clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar "-Dsonar.projectKey=openbook_backend" "-Dsonar.projectName=openbook_backend" "-Dsonar.host.url=http://localhost:9000" "-Dsonar.token=<token>"
 ```
 
 SonarQube connectivity and project credentials must be configured in the environment or in the SonarQube scanner configuration before running analysis.
