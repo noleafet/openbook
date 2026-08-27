@@ -32,7 +32,7 @@ public class BookControllerIT {
                 createURLWithPort("/api/books/1"),
                 HttpMethod.GET, entity, String.class);
 
-        String expected = "{\"data\":{\"id\":1,\"title\":\"Meme\",\"author\":\"system\"}}";
+        String expected = "{\"data\":{\"id\":1,\"title\":\"sites\",\"author\":\"devops\"}}";
         System.out.println(response.getBody());
 
         JSONAssert.assertEquals(expected, response.getBody(),JSONCompareMode.LENIENT);

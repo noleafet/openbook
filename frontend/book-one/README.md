@@ -119,7 +119,12 @@ Next.js loads `.env.local` for local development. Do not commit credentials or p
 | `pnpm start` | Serves the existing production build. Run `pnpm build` first. |
 | `pnpm lint` | Runs ESLint across the project. |
 | `pnpm test` | Runs the Jest test suite. |
-| `pnpm sonar` | Runs SonarQube analysis using `sonar-project.properties`. |
+
+Runs SonarQube analysis using `sonar-project.properties`:
+
+```bash
+pnpm dlx sonarqube-scanner "-Dsonar.host.url=http://localhost:9000" "-Dsonar.projectKey=openbook_frontend_book-one" "-Dsonar.projectName=openbook_frontend_book-one" "-Dsonar.token=<token>"
+```
 
 Useful verification sequence:
 
