@@ -64,7 +64,7 @@ public class SecurityConfig {
                         // Role-based endpoints\
                         .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         // Public endpoints
-                        .requestMatchers("/swagger-ui/**","/api/**","/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**","/actuator/prometheus/**","/api/**","/v3/api-docs/**").permitAll()
                         // All other endpoints require authentication
                         .anyRequest().authenticated());
 
