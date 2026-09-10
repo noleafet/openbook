@@ -1,3 +1,13 @@
-ignoredBuiltDependencies:
-  - sharp
-  - unrs-resolver
+allowBuilds:
+  "@scarf/scarf": true
+  "@tree-sitter-grammars/tree-sitter-yaml": true
+  "core-js-pure": true
+  "msw": true
+  "sharp": true
+  "tree-sitter-json": true
+  "tree-sitter": true
+  "unrs-resolver": true
+
+overrides:
+  '@types/react': 19.2.17
+  '@types/react-dom': 19.2.3
