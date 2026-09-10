@@ -13,11 +13,19 @@ management:
   endpoints:
     web:
       exposure:
-        include: "prometheus"
+        # Expose the metrics endpoint safely
+        include: "health,prometheus"
   prometheus:
     metrics:
       export:
         enabled: true
+  metrics:
+    tags:
+      # Automatically adds an "application" tag to all your metrics
+      application: "backend-service" 
+
+server:
+  address: 0.0.0.0
 
 spring:
     application:
@@ -26,6 +34,7 @@ spring:
         url: jdbc:postgresql://${vars.db.host}:5432/${vars.db.name}?sslmode=disable
         username: ${vars.db.user}
         password: ${vars.db.pass}
+        driver-class-name: org.postgresql.Driver 
     jackson:
         default-property-inclusion: non_null
     jpa:
@@ -40,6 +49,7 @@ spring:
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         show-sql: false
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 springdoc:
     swagger-ui:
