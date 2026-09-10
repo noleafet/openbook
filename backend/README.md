@@ -133,10 +133,12 @@ The profile file is named `application-dev.yml`, so the profile name is `dev`.
 
 ## Database setup
 
-Create a PostgreSQL database and user matching the defaults, or provide equivalent overrides:
+Create a database and user matching the backend defaults, or override the database properties in the backend configuration, application.yml.
 
-```sql
+The default backend connection is:
 
+```text
+jdbc:postgresql://localhost:5432/openbook?sslmode=disable
 ```
 
 Flyway applies versioned migrations from `src/main/resources/db/migration` when the application starts. Hibernate is configured with `ddl-auto: validate`, so the database schema must be compatible with the migrations before the application can start successfully.

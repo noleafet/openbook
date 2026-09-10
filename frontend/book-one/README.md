@@ -144,7 +144,6 @@ USE_MOCK=true pnpm test
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Default Next.js landing page currently used as the root entry point. |
 | `/book-one` | Main authenticated book workspace. |
 | `/api-doc` | Swagger UI for the API definition configured by `NEXT_SWAGGER_URL`. |
 | `/proxy` | GET route that fetches and rewrites remote HTML for the client. |

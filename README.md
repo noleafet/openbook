@@ -5,6 +5,9 @@
 [![Java](https://img.shields.io/badge/Java-21%2B-ED8B00?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 
+[![Confluence Page - Openbook: Project Overview](https://img.shields.io/badge/Confluence%20Page-Openbook%3A%20Project%20Overview-0052CC?logo=Confluence&logoColor=white)](https://noleafet.atlassian.net/wiki/external/YjIxMTMyZWY5NmVjNGY2M2IxYzQ3ZDYxY2U3MWY1NGM)
+[![Jira KAN Board](https://img.shields.io/badge/Jira-KAN%20Board-0052CC?logo=Jira&logoColor=white)](https://noleafet.atlassian.net/jira/software/projects/KAN/boards/2)
+
 OpenBook is a full-stack application for managing a structured personal library. The repository contains two cooperating projects:
 
 | Component | Location | Responsibility | Default local URL |
@@ -91,11 +94,7 @@ Start the backend first so the frontend has an API to call.
 
 ### 1. Start PostgreSQL
 
-Create a database and user matching the backend defaults, or override the database properties in the backend configuration:
-
-```sql
-
-```
+Create a database and user matching the backend defaults, or override the database properties in the backend configuration, application.yml.
 
 The default backend connection is:
 
