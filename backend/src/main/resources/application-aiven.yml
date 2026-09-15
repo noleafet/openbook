@@ -43,8 +43,7 @@ spring:
     hibernate:
       ddl-auto: validate
     properties:
-      # This property links Spring Boot's active DataSource bean natively into Hibernate 7
-      hibernate.connection.datasource: spring.datasource
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
       hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
 
