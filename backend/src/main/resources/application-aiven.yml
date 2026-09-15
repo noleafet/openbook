@@ -22,41 +22,41 @@ server:
 
 spring:
     application:
-        name: openbook
+      name: openbook
     datasource:
-        # Changed sslmode=disable to sslmode=require for Aiven compliance
-        url: ${SPRING_DATASOURCE_URL}?sslmode=require
-        username: ${SPRING_DATASOURCE_USERNAME}
-        password: ${SPRING_DATASOURCE_PASSWORD}
-        driver-class-name: org.postgresql.Driver 
+      # Changed sslmode=disable to sslmode=require for Aiven compliance
+      url: ${SPRING_DATASOURCE_URL}?sslmode=require
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD}
+      driver-class-name: org.postgresql.Driver 
 
-    # HikariCP pooling limits tailored for Aiven Free Tier
-    hikari:
-      maximum-pool-size: 4
-      minimum-idle: 2
-      idle-timeout: 30000
-      max-lifetime: 600000
-      connection-timeout: 20000
+      # HikariCP pooling limits tailored for Aiven Free Tier
+      hikari:
+        maximum-pool-size: 4
+        minimum-idle: 2
+        idle-timeout: 30000
+        max-lifetime: 600000
+        connection-timeout: 20000
 
     jackson:
-        default-property-inclusion: non_null
+      default-property-inclusion: non_null
     jpa:
-        properties:
-            hibernate:
-                # Force Hibernate to use Spring's managed DataSource configuration
-                connection:
-                    provider_class: org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider
-                ddl-auto: validate
-                naming:
-                    physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-        show-sql: false
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+      open-in-view: false
+      show-sql: false
+      hibernate:
+        ddl-auto: validate
+      properties:
+        hibernate.boot.model.naming.physical_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+
+server:
+  port: ${SPRING_SERVER_PORT:8080}
 
 springdoc:
-    swagger-ui:
-        path: /api-docs.html
-        syntaxHighlight:
-            theme: light
+  swagger-ui:
+    path: /api-docs.html
+    syntaxHighlight:
+      theme: light
 
 jwt:
   secret: ${JWT_SECRET:8284D6251655468576D5A713474371805096859703373367639792F423F45284}
