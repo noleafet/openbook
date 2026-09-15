@@ -43,12 +43,10 @@ spring:
     jpa:
         properties:
             hibernate:
+                # Force Hibernate to use Spring's managed DataSource configuration
                 connection:
-                    # Changed sslmode=disable to sslmode=require for Aiven compliance
-                    url: ${SPRING_DATASOURCE_URL}?sslmode=require
-                    username: ${SPRING_DATASOURCE_USERNAME}
-                    password: ${SPRING_DATASOURCE_PASSWORD}
-                dialect: org.hibernate.dialect.PostgreSQLDialect
+                    provider_class: org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider
+      
                 ddl-auto: validate
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy

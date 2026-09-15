@@ -33,11 +33,6 @@ spring:
     jpa:
         properties:
             hibernate:
-                connection:
-                    url: ${SPRING_DATASOURCE_URL}?sslmode=disable
-                    username: ${SPRING_DATASOURCE_USERNAME}
-                    password: ${SPRING_DATASOURCE_PASSWORD}
-                dialect: org.hibernate.dialect.PostgreSQLDialect
                 ddl-auto: validate
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
