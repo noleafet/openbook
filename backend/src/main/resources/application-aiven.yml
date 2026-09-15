@@ -24,17 +24,28 @@ spring:
     application:
         name: openbook
     datasource:
-        url: ${SPRING_DATASOURCE_URL}?sslmode=disable
+        # Changed sslmode=disable to sslmode=require for Aiven compliance
+        url: ${SPRING_DATASOURCE_URL}?sslmode=require
         username: ${SPRING_DATASOURCE_USERNAME}
         password: ${SPRING_DATASOURCE_PASSWORD}
         driver-class-name: org.postgresql.Driver 
+
+    # HikariCP pooling limits tailored for Aiven Free Tier
+    hikari:
+      maximum-pool-size: 4
+      minimum-idle: 2
+      idle-timeout: 30000
+      max-lifetime: 600000
+      connection-timeout: 20000
+
     jackson:
         default-property-inclusion: non_null
     jpa:
         properties:
             hibernate:
                 connection:
-                    url: ${SPRING_DATASOURCE_URL}?sslmode=disable
+                    # Changed sslmode=disable to sslmode=require for Aiven compliance
+                    url: ${SPRING_DATASOURCE_URL}?sslmode=require
                     username: ${SPRING_DATASOURCE_USERNAME}
                     password: ${SPRING_DATASOURCE_PASSWORD}
                 dialect: org.hibernate.dialect.PostgreSQLDialect
