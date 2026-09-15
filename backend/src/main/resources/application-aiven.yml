@@ -46,7 +46,6 @@ spring:
                 # Force Hibernate to use Spring's managed DataSource configuration
                 connection:
                     provider_class: org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider
-      
                 ddl-auto: validate
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
