@@ -17,9 +17,6 @@ management:
       # Automatically adds an "application" tag to all your metrics
       application: "backend-service" 
 
-server:
-  address: 0.0.0.0
-
 spring:
   application:
     name: openbook
