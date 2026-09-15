@@ -43,12 +43,6 @@ spring:
     jpa:
         properties:
             hibernate:
-                connection:
-                    # Changed sslmode=disable to sslmode=require for Aiven compliance
-                    url: ${SPRING_DATASOURCE_URL}?sslmode=require
-                    username: ${SPRING_DATASOURCE_USERNAME}
-                    password: ${SPRING_DATASOURCE_PASSWORD}
-                dialect: org.hibernate.dialect.PostgreSQLDialect
                 ddl-auto: validate
                 naming:
                     physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
