@@ -43,7 +43,9 @@ spring:
     hibernate:
       ddl-auto: validate
     properties:
-      hibernate.boot.model.naming.physical_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      # FORCE HIBERNATE 7 TO USE HIKARI instead of falling back to built-in provider
+      hibernate.connection.provider_class: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
 
 server:
