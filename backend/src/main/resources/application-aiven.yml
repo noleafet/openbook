@@ -1,6 +1,12 @@
+# Production logging adjustments
 logging:
   level:
-    root: info
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
 
 management:
   endpoints:
@@ -38,13 +44,29 @@ spring:
   jackson:
     default-property-inclusion: non_null
   jpa:
-    open-in-view: false
-    show-sql: false 
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
+    show-sql: false
     properties:
-      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-      hibernate.physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+      hibernate:
+        # To avoid configuration on code-level, explicit redeclaration of connection parameters is done here in the configuration file
+        connection.provider_class: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+
+        connection.url: ${SPRING_DATASOURCE_URL}?sslmode=require
+        connection.username: ${SPRING_DATASOURCE_USERNAME}
+        connection.password: ${SPRING_DATASOURCE_PASSWORD}
+
+        hikari.maximumPoolSize: 4
+        hikari.minimumIdle: 2
+        hikari.idleTimeout: 30000
+        hikari.maxLifetime: 600000
+        connection-timeout: 20000
+        
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: validate
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
 
 server:
