@@ -32,7 +32,6 @@ export const TreeUtil = {
   },
 
   bookmarkBookTreeItemById: (id: string, bookTreeItem: BookTreeItem): void => {
-    console.log('id/' + id + '/treeid/' + bookTreeItem.id);
     if (id == bookTreeItem.id) {
       bookTreeItem.isBookmarked = true;
       return;

@@ -16,8 +16,9 @@ import BookTree from '@/components/ui/trees/book-tree';
 import Hub from '@/components/layout/hub';
 
 import BookForm from '@/components/forms/book-form';
-import DataForm from '@/components/forms/data-form';
 import ChildForm from '@/components/forms/child-form';
+import DataForm from '@/components/forms/data-form';
+import LoginForm from '@/components/forms/login-form';
 
 import InfoCard from '@/components/ui/cards/info-card';
 
@@ -48,9 +49,11 @@ export default function BookOne() {
   const [showInfo, setShowInfo] = useState(false);
   const [showChildForm, setShowChildForm] = useState(false);
 
-  const resetMetaData = useCallback(() => {
+  const resetMetaData = useCallback((user: User | null) => {
     console.log('reset');
     if (user) {
+      console.log(user);
+      console.log('user in');
       const service = new UserBookService();
       service.getBooksByUserId(user.id)
         .then(setBooks)
@@ -61,17 +64,18 @@ export default function BookOne() {
         .then(setBookmarks)
         .catch(console.error);
     }
-  }, [user, setBooks]);
+    
+  }, [setBooks, setBookmarks]);
 
   useCookieListener('authUser', (cookieUser) => {
     const storedUser: User = cookieUser ? JSON.parse(cookieUser) : null;
     setUser(storedUser);
-    resetMetaData();
+    resetMetaData(storedUser);
   });
 
   useEffect(() => {
-    resetMetaData();
-  }, [resetMetaData]);
+    resetMetaData(user);
+  }, [resetMetaData, user]);
 
   const bookTreeItems = useMemo(() => {
 
@@ -82,13 +86,13 @@ export default function BookOne() {
     //console.log(JSON.stringify(bookTreeItems, null, 2));
     bookTreeItems.map(bookTreeItem => {
       bookmarks.map(bookmark => {
-        console.log('bookmark');
-        console.log(bookmark);
+        //console.log('bookmark');
+        //console.log(bookmark);
         const treeItemId = bookmark.page ? 'p-' + bookmark.page.id : 'l-' + bookmark.line.id;
         TreeUtil.bookmarkBookTreeItemById(treeItemId, bookTreeItem);
       });
     });
-    console.log(bookTreeItems);
+    //console.log(bookTreeItems);
     return bookTreeItems;
   }, [books, bookmarks]);
 
@@ -98,7 +102,7 @@ export default function BookOne() {
 
     const lines: Line[] = [];
     books.forEach(book => lines.push(...transformBookToLineArray(book)));
-    console.log(JSON.stringify(lines, null, 2));
+    //console.log(JSON.stringify(lines, null, 2));
     return lines;
   }, [books]);
 
@@ -137,8 +141,9 @@ export default function BookOne() {
     const resetKeys = ['bookAdded', 'childAdded', 'dataUpdated', 'itemRemoved', 'bookmarkAdded', 'bookmarkRemoved'];
 
     const actionMap: Record<string, () => void> = {
-      ...Object.fromEntries(resetKeys.map(key => [key, resetMetaData])),
+      ...Object.fromEntries(resetKeys.map(key => [key, () => resetMetaData(user)])),
       showChildForm: toggleShowChildForm,
+      loggedOut: () => {setBookmarks([]); console.log('abc')},
       default: () => console.log('Action not registered')
     };
 
@@ -150,7 +155,9 @@ export default function BookOne() {
 
       {lines &&
         <div className='flex flex-col h-screen overflow-hidden'>
-          <Header showCover={showCover} onToggleShowCover={toggleShowCover} />
+          <Header showCover={showCover} onToggleShowCover={toggleShowCover}>
+            <LoginForm handler={handleActionPerformed} />
+          </Header>
           <Cover showCover={showCover} />
           <div className='flex-1 grid grid-cols-6 h-full'>
 
