@@ -37,8 +37,13 @@ const formSchema = z.object({
   }),
 });
 
+interface LoginFormProps {
+  handler?: (action: string) => void;
+}
 
-export default function LoginForm() {
+
+
+export default function LoginForm({handler}: LoginFormProps) {
   const { authUser, login, logout, isLoading } = useAuth();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -64,6 +69,7 @@ export default function LoginForm() {
   async function onClickLogout() {
     try {
       logout();
+      handler?.('loggedOut');
     } catch (err: unknown) {
       setErrorMsg(ErrorUtil.getErrorMessage(err));
     }

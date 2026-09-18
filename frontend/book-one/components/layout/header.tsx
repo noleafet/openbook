@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
+
 import styled from 'styled-components';
 
 import { PiGithubLogoDuotone, PiNotebookDuotone, PiNotebookFill } from 'react-icons/pi';
-import LoginForm from '@/components/forms/login-form';
 
 const HeaderLogoBox = styled.div`
     color: var(--color-summer-tropical-primary);
@@ -32,11 +33,12 @@ const CoverToggle = styled.span`
 
 
 interface HeaderInfo {
+    children: ReactNode;
     showCover: boolean;
     onToggleShowCover: () => void;
 }
 
-export default function Header({ showCover, onToggleShowCover }: HeaderInfo) {
+export default function Header({ children, showCover, onToggleShowCover }: HeaderInfo) {
 
 
     return (
@@ -44,7 +46,7 @@ export default function Header({ showCover, onToggleShowCover }: HeaderInfo) {
             <HeaderLogoBox className='flex h-10 items-center justify-between text-base'>
                 <span className='logo text-lg'>Openbook</span>
                 <span className='flex gap-x-4 text-base items-center'>
-                    <span><LoginForm /></span>
+                    {children}
                     <span title='Github'><PiGithubLogoDuotone /></span>
                     <CoverToggle title='Cover' onClick={onToggleShowCover}>
                         {showCover ? <PiNotebookFill /> : <PiNotebookDuotone />}
