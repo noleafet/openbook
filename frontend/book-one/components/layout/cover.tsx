@@ -66,12 +66,11 @@ export default function Cover({ showCover }: CoverProps) {
                         <div className='pb-10'>
                             <NavItem>
                                 <div><span>Openbook</span></div>
-                                <div className="text-lg leading-none"><span>Book 1: Clairvoyance</span></div>
+                                <div className="text-lg leading-none"><span>Book 1: Hub</span></div>
                             </NavItem>
                         </div>
                         <div>
-                            <NavItem>Lorem ipsum dolor sit amet</NavItem>
-                            <NavItem>Lorem ipsum dolor sit amet</NavItem>
+                            <NavItem>Under development</NavItem>
                         </div>
                     </div>
 
