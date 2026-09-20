@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OpenBook, Book 1: Clairvoyance",
+  title: "OpenBook, Book 1: Hub",
   description: "An open book, an application for my learnings, and a one stop site for all",
 };
 
