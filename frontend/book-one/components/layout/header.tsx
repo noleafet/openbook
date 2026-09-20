@@ -47,7 +47,7 @@ export default function Header({ children, showCover, onToggleShowCover }: Heade
                 <span className='logo text-lg'>Openbook</span>
                 <span className='flex gap-x-4 text-base items-center'>
                     {children}
-                    <span title='Github'><PiGithubLogoDuotone /></span>
+                    <span title='Github' onClick={() => window.open('https://github.com/noleafet/openbook', '_blank', 'noopener,noreferrer')}><PiGithubLogoDuotone /></span>
                     <CoverToggle title='Cover' onClick={onToggleShowCover}>
                         {showCover ? <PiNotebookFill /> : <PiNotebookDuotone />}
                     </CoverToggle>
