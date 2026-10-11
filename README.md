@@ -5,9 +5,14 @@
 [![Java](https://img.shields.io/badge/Java-21%2B-ED8B00?logo=openjdk&logoColor=white)](https://www.oracle.com/java/technologies/downloads/)
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 
-[![Confluence Page - Openbook: Project Overview](https://img.shields.io/badge/Confluence%20Page-Openbook%3A%20Project%20Overview-0052CC?logo=Confluence&logoColor=white)](https://noleafet.atlassian.net/wiki/external/YjIxMTMyZWY5NmVjNGY2M2IxYzQ3ZDYxY2U3MWY1NGM)
+[![Confluence Page - Openbook: Project Overview](https://img.shields.io/badge/Confluence%20Page-Openbook%3A%20Project%20Overview-0052CC?logo=Confluence&logoColor=white)](https://noleafet.atlassian.net/wiki/spaces/~71202041fdf089530245b4927a6e50b3a6842a/pages/131431/OpenBook+Project+Overview)
 [![Jira KAN Board](https://img.shields.io/badge/Jira-KAN%20Board-0052CC?logo=Jira&logoColor=white)](https://noleafet.atlassian.net/jira/software/projects/KAN/boards/2)
 
+<br>
+
+> **💤 Hiatus notice:** *I am currently working on another side project, gonna go back here possibly next month, November 2026.* 
+
+<br>
 OpenBook is a full-stack application for managing a structured personal library. The repository contains two cooperating projects:
 
 | Component | Location | Responsibility | Default local URL |
