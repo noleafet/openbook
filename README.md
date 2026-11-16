@@ -10,7 +10,7 @@
 
 <br>
 
-> **💤 Hiatus notice:** *I am currently working on another side project, gonna go back here possibly next month, November 2026.* 
+> **💤 Hiatus notice:** *I got caught up in other side projects, gonna go back here possibly next year, 2027.* 
 
 <br>
 OpenBook is a full-stack application for managing a structured personal library. The repository contains two cooperating projects:
